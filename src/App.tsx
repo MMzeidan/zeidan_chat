@@ -34,7 +34,8 @@ interface FaqType {
   question: string;
   answer: string;
   imageUrl?: string;
-  timestamp?: Timestamp; // إضافة timestamp لتسهيل الترتيب في Firestore
+  // إضافة timestamp لتسهيل الترتيب في Firestore
+  timestamp?: Timestamp;
 }
 
 interface UnansweredQuestionType {
@@ -100,7 +101,8 @@ const AdminPage: React.FC<AdminPageProps> = ({
   const [newImageUrl, setNewImageUrl] = useState<string>("");
   const [editingFaqId, setEditingFaqId] = useState<string | null>(null);
   const [message, setMessage] = useState<string>("");
-  const faqFormRef = useRef<HTMLFormElement>(null); // مرجع لنموذج الأسئلة الشائعة
+  // تم تغيير نوع faqFormRef ليتوافق مع HTMLDivElement
+  const faqFormRef = useRef<HTMLDivElement>(null); // مرجع لنموذج الأسئلة الشائعة
 
   useEffect(() => {
     if (!db || !userId) return;
@@ -452,12 +454,10 @@ const AdminPage: React.FC<AdminPageProps> = ({
                   <p className="admin-unanswered-timestamp">
                     التاريخ:{" "}
                     {q.timestamp
-                      ? q.timestamp
-                          .toDate()
-                          .toLocaleString("ar-EG", {
-                            dateStyle: "full",
-                            timeStyle: "short",
-                          })
+                      ? q.timestamp.toDate().toLocaleString("ar-EG", {
+                          dateStyle: "full",
+                          timeStyle: "short",
+                        })
                       : "غير متاح"}
                   </p>
                 </div>
@@ -569,17 +569,18 @@ const App: React.FC = () => {
 
     try {
       const currentSystemInstruction: string = `
-                أنت روبوت محادثة خاص بالأسئلة الشائعة (FAQs) لموقع إلكتروني.
-                مهمتك الأساسية هي الإجابة على أسئلة المستخدمين بوضوح ومساعدة، بناءً على معلومات الأسئلة الشائعة المقدمة أدناه.
-                إذا لم تتمكن من العثور على الإجابة في البيانات المقدمة، فاذكر بأدب أنك لا تستطيع العثور على المعلومات واقترح عليهم الاتصال بالدعم.
-                لا تخترع إجابات.
-                الأسئلة الشائعة المتوفرة لديك هي:
-                ${faqs
-                  .map(
-                    (faq) => `- سؤال: ${faq.question}\n  إجابة: ${faq.answer}`
-                  )
-                  .join("\n")}
-            `;
+                        أنت روبوت محادثة خاص بالأسئلة الشائعة (FAQs) لموقع إلكتروني.
+                        مهمتك الأساسية هي الإجابة على أسئلة المستخدمين بوضوح ومساعدة، بناءً على معلومات الأسئلة الشائعة المقدمة أدناه.
+                        إذا لم تتمكن من العثور على الإجابة في البيانات المقدمة، فاذكر بأدب أنك لا تستطيع العثور على المعلومات واقترح عليهم الاتصال بالدعم.
+                        لا تخترع إجابات.
+                        الأسئلة الشائعة المتوفرة لديك هي:
+                        ${faqs
+                          .map(
+                            (faq) =>
+                              `- سؤال: ${faq.question}\n  إجابة: ${faq.answer}`
+                          )
+                          .join("\n")}
+                    `;
 
       let chatHistory = [
         {
@@ -870,568 +871,568 @@ const App: React.FC = () => {
       )}
 
       <style>{`
-                /* --- الخطوط والأيقونات --- */
-                @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
-                @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+                        /* --- الخطوط والأيقونات --- */
+                        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
+                        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 
-                :root {
-                    --bg-color: #1a1a1a;
-                    --primary-color: #10B981; /* أخضر مشرق */
-                    --user-bubble-bg: #2d3748;
-                    --bot-bubble-bg: #4a5568;
-                    --text-color: #E2E8F0;
-                    --text-color-muted: #A0AEC0;
-                    --glass-bg: rgba(26, 26, 26, 0.6);
-                    --border-color: rgba(255, 255, 255, 0.1);
-                    --shadow-color: rgba(0, 0, 0, 0.37);
-                }
+                        :root {
+                            --bg-color: #1a1a1a;
+                            --primary-color: #10B981; /* أخضر مشرق */
+                            --user-bubble-bg: #2d3748;
+                            --bot-bubble-bg: #4a5568;
+                            --text-color: #E2E8F0;
+                            --text-color-muted: #A0AEC0;
+                            --glass-bg: rgba(26, 26, 26, 0.6);
+                            --border-color: rgba(255, 255, 255, 0.1);
+                            --shadow-color: rgba(0, 0, 0, 0.37);
+                        }
 
-                html, body, #root {
-                    height: 100%;
-                    margin: 0;
-                    padding: 0;
-                    overflow: hidden;
-                }
+                        html, body, #root {
+                            height: 100%;
+                            margin: 0;
+                            padding: 0;
+                            overflow: hidden;
+                        }
 
-                body {
-                    font-family: 'Cairo', sans-serif;
-                    background-color: var(--bg-color);
-                    color: var(--text-color);
-                }
+                        body {
+                            font-family: 'Cairo', sans-serif;
+                            background-color: var(--bg-color);
+                            color: var(--text-color);
+                        }
 
-                .main-container {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    height: 100vh;
-                    padding: 2rem;
-                    background: url('https://www.transparenttextures.com/patterns/cubes.png'), linear-gradient(to bottom right, #2D3748, #1A202C);
-                    position: relative; /* لتمكين وضع زر الإعدادات */
-                }
+                        .main-container {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            height: 100vh;
+                            padding: 2rem;
+                            background: url('https://www.transparenttextures.com/patterns/cubes.png'), linear-gradient(to bottom right, #2D3748, #1A202C);
+                            position: relative; /* لتمكين وضع زر الإعدادات */
+                        }
 
-                .loading-screen {
-                    background: var(--bg-color); /* خلفية داكنة لشاشة التحميل */
-                }
+                        .loading-screen {
+                            background: var(--bg-color); /* خلفية داكنة لشاشة التحميل */
+                        }
 
-                .loading-content {
-                    text-align: center;
-                    padding: 2rem;
-                    background: var(--glass-bg);
-                    border-radius: 16px;
-                    border: 1px solid var(--border-color);
-                    box-shadow: 0 4px 16px var(--shadow-color);
-                    backdrop-filter: blur(10px);
-                }
+                        .loading-content {
+                            text-align: center;
+                            padding: 2rem;
+                            background: var(--glass-bg);
+                            border-radius: 16px;
+                            border: 1px solid var(--border-color);
+                            box-shadow: 0 4px 16px var(--shadow-color);
+                            backdrop-filter: blur(10px);
+                        }
 
-                .loading-icon {
-                    font-size: 3rem;
-                    color: var(--primary-color);
-                    margin-bottom: 1rem;
-                }
+                        .loading-icon {
+                            font-size: 3rem;
+                            color: var(--primary-color);
+                            margin-bottom: 1rem;
+                        }
 
-                .loading-text {
-                    font-size: 1.25rem;
-                    font-weight: 600;
-                    color: var(--text-color);
-                }
+                        .loading-text {
+                            font-size: 1.25rem;
+                            font-weight: 600;
+                            color: var(--text-color);
+                        }
 
-                .settings-fab {
-                    position: fixed; top: 20px; right: 20px; width: 50px; height: 50px;
-                    background-color: var(--glass-bg); color: var(--text-color);
-                    border: 1px solid var(--border-color); border-radius: 50%;
-                    display: flex; align-items: center; justify-content: center;
-                    font-size: 20px; cursor: pointer; backdrop-filter: blur(10px);
-                    transition: all 0.3s ease; z-index: 1000;
-                    box-shadow: 0 4px 12px var(--shadow-color);
-                }
-                .settings-fab:hover { background-color: var(--primary-color); color: white; transform: rotate(45deg) scale(1.05); }
+                        .settings-fab {
+                            position: fixed; top: 20px; right: 20px; width: 50px; height: 50px;
+                            background-color: var(--glass-bg); color: var(--text-color);
+                            border: 1px solid var(--border-color); border-radius: 50%;
+                            display: flex; align-items: center; justify-content: center;
+                            font-size: 20px; cursor: pointer; backdrop-filter: blur(10px);
+                            transition: all 0.3s ease; z-index: 1000;
+                            box-shadow: 0 4px 12px var(--shadow-color);
+                        }
+                        .settings-fab:hover { background-color: var(--primary-color); color: white; transform: rotate(45deg) scale(1.05); }
 
-                .chat-window {
-                    width: 100%; max-width: 450px; height: 80vh; max-height: 700px;
-                    display: flex; flex-direction: column; background: var(--glass-bg);
-                    border-radius: 24px; border: 1px solid var(--border-color);
-                    box-shadow: 0 8px 32px 0 var(--shadow-color); backdrop-filter: blur(15px);
-                    overflow: hidden;
-                }
-                
-                .chat-header {
-                    padding: 1.25rem;
-                    border-bottom: 1px solid var(--border-color);
-                    background-color: rgba(0,0,0,0.2); /* خلفية شبه شفافة للرأس */
-                    display: flex; /* إضافة flex */
-                    align-items: center; /* توسيط عمودي */
-                    justify-content: flex-start; /* محاذاة لليسار */
-                }
-                .flex-center {
-                    display: flex;
-                    align-items: center;
-                }
-                .avatar-icon {
-                    width: 48px; height: 48px; background: var(--primary-color);
-                    border-radius: 50%; display: flex; align-items: center; justify-content: center;
-                    font-size: 24px; color: white; margin-right: 1rem;
-                    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-                }
-                .chat-title { font-size: 1.25rem; font-weight: bold; color: white; }
-                .chat-status { font-size: 0.875rem; color: var(--primary-color); }
+                        .chat-window {
+                            width: 100%; max-width: 450px; height: 80vh; max-height: 700px;
+                            display: flex; flex-direction: column; background: var(--glass-bg);
+                            border-radius: 24px; border: 1px solid var(--border-color);
+                            box-shadow: 0 8px 32px 0 var(--shadow-color); backdrop-filter: blur(15px);
+                            overflow: hidden;
+                        }
+                        
+                        .chat-header {
+                            padding: 1.25rem;
+                            border-bottom: 1px solid var(--border-color);
+                            background-color: rgba(0,0,0,0.2); /* خلفية شبه شفافة للرأس */
+                            display: flex; /* إضافة flex */
+                            align-items: center; /* توسيط عمودي */
+                            justify-content: flex-start; /* محاذاة لليسار */
+                        }
+                        .flex-center {
+                            display: flex;
+                            align-items: center;
+                        }
+                        .avatar-icon {
+                            width: 48px; height: 48px; background: var(--primary-color);
+                            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+                            font-size: 24px; color: white; margin-right: 1rem;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                        }
+                        .chat-title { font-size: 1.25rem; font-weight: bold; color: white; }
+                        .chat-status { font-size: 0.875rem; color: var(--primary-color); }
 
-                .chat-messages { flex-grow: 1; padding: 1rem; overflow-y: auto; }
-                .message-wrapper { display: flex; margin-bottom: 1rem; animation: fadeIn 0.4s ease-out; }
-                .message-wrapper.user { justify-content: flex-end; }
-                .message-wrapper.bot { justify-content: flex-start; }
-                
-                .message-bubble { max-width: 80%; padding: 0.75rem 1rem; border-radius: 18px; font-size: 1rem; line-height: 1.5; }
-                .message-wrapper.user .message-bubble { background-color: var(--primary-color); color: white; border-bottom-right-radius: 4px; }
-                .message-wrapper.bot .message-bubble { background-color: var(--bot-bubble-bg); color: var(--text-color); border-bottom-left-radius: 4px; }
-                .message-image { max-width: 100%; border-radius: 12px; margin-top: 0.75rem; }
-                
-                @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+                        .chat-messages { flex-grow: 1; padding: 1rem; overflow-y: auto; }
+                        .message-wrapper { display: flex; margin-bottom: 1rem; animation: fadeIn 0.4s ease-out; }
+                        .message-wrapper.user { justify-content: flex-end; }
+                        .message-wrapper.bot { justify-content: flex-start; }
+                        
+                        .message-bubble { max-width: 80%; padding: 0.75rem 1rem; border-radius: 18px; font-size: 1rem; line-height: 1.5; }
+                        .message-wrapper.user .message-bubble { background-color: var(--primary-color); color: white; border-bottom-right-radius: 4px; }
+                        .message-wrapper.bot .message-bubble { background-color: var(--bot-bubble-bg); color: var(--text-color); border-bottom-left-radius: 4px; }
+                        .message-image { max-width: 100%; border-radius: 12px; margin-top: 0.75rem; }
+                        
+                        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-                .typing-indicator {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    height: 100%;
-                }
-                .typing-indicator span {
-                    height: 10px; width: 10px; background-color: var(--text-color-muted);
-                    border-radius: 50%; display: inline-block; margin: 0 2px;
-                    animation: bounce 1.4s infinite ease-in-out both;
-                }
-                .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
-                .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
-                @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
+                        .typing-indicator {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            height: 100%;
+                        }
+                        .typing-indicator span {
+                            height: 10px; width: 10px; background-color: var(--text-color-muted);
+                            border-radius: 50%; display: inline-block; margin: 0 2px;
+                            animation: bounce 1.4s infinite ease-in-out both;
+                        }
+                        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+                        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+                        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
 
-                .report-button {
-                    background-color: #e53e3e; /* أحمر */
-                    color: white;
-                    padding: 0.5rem 1rem;
-                    border-radius: 12px;
-                    font-size: 0.875rem;
-                    cursor: pointer;
-                    transition: background-color 0.2s ease;
-                    border: none;
-                }
-                .report-button:hover { background-color: #c53030; }
-
-
-                .chat-input-area { display: flex; align-items: center; padding: 1rem; border-top: 1px solid var(--border-color); }
-                .chat-input {
-                    flex-grow: 1; background-color: var(--user-bubble-bg);
-                    border: 1px solid var(--border-color); border-radius: 12px;
-                    padding: 0.75rem 1rem; color: var(--text-color);
-                    font-family: 'Cairo', sans-serif; resize: none; transition: border-color 0.2s;
-                    min-height: 48px; /* لضمان ارتفاع ثابت عند سطر واحد */
-                    box-sizing: border-box; /* لضمان أن padding لا يزيد العرض الكلي */
-                }
-                .chat-input:focus { outline: none; border-color: var(--primary-color); }
-                .send-button {
-                    width: 48px; height: 48px; background-color: var(--primary-color);
-                    border: none; border-radius: 50%; color: white;
-                    font-size: 1.2rem; margin-left: 0.75rem; cursor: pointer; transition: transform 0.2s;
-                    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-                }
-                .send-button:hover { transform: scale(1.1); }
-                .send-button:disabled { background-color: var(--bot-bubble-bg); cursor: not-allowed; opacity: 0.7; }
-
-                .modal-backdrop {
-                    position: fixed; inset: 0; background-color: rgba(0,0,0,0.7);
-                    display: flex; align-items: center; justify-content: center; z-index: 1001;
-                }
-                .modal-content {
-                    background: var(--glass-bg); padding: 2rem; border-radius: 16px;
-                    border: 1px solid var(--border-color); backdrop-filter: blur(10px);
-                    width: 90%; max-width: 400px;
-                    box-shadow: 0 8px 32px 0 var(--shadow-color);
-                }
-                .modal-title {
-                    font-size: 1.5rem;
-                    font-weight: bold;
-                    color: white;
-                    margin-bottom: 1.5rem;
-                    text-align: center;
-                }
-                .modal-input {
-                    width: 100%; padding: 0.75rem 1rem; background-color: var(--user-bubble-bg);
-                    border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-color);
-                    margin-bottom: 1rem;
-                }
-                .modal-input:focus { outline: none; border-color: var(--primary-color); }
-                .modal-buttons-group {
-                    display: flex;
-                    justify-content: space-between;
-                    margin-top: 1.5rem;
-                }
-                .modal-button { padding: 0.5rem 1.5rem; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; transition: all 0.2s; }
-                .modal-button.primary { background-color: var(--primary-color); color: white; }
-                .modal-button.secondary { background-color: var(--bot-bubble-bg); color: var(--text-color); }
-                .modal-button:hover.primary { background-color: #0c8a63; }
-                .modal-button:hover.secondary { background-color: #6a7388; }
-                .modal-hint {
-                    font-size: 0.75rem;
-                    color: var(--text-color-muted);
-                    margin-top: 1rem;
-                    text-align: center;
-                }
+                        .report-button {
+                            background-color: #e53e3e; /* أحمر */
+                            color: white;
+                            padding: 0.5rem 1rem;
+                            border-radius: 12px;
+                            font-size: 0.875rem;
+                            cursor: pointer;
+                            transition: background-color 0.2s ease;
+                            border: none;
+                        }
+                        .report-button:hover { background-color: #c53030; }
 
 
-                /* --- شريط التمرير --- */
-                .chat-messages::-webkit-scrollbar { width: 6px; }
-                .chat-messages::-webkit-scrollbar-track { background: transparent; }
-                .chat-messages::-webkit-scrollbar-thumb { background: #555; border-radius: 3px; }
-                .chat-messages::-webkit-scrollbar-thumb:hover { background: #777; }
+                        .chat-input-area { display: flex; align-items: center; padding: 1rem; border-top: 1px solid var(--border-color); }
+                        .chat-input {
+                            flex-grow: 1; background-color: var(--user-bubble-bg);
+                            border: 1px solid var(--border-color); border-radius: 12px;
+                            padding: 0.75rem 1rem; color: var(--text-color);
+                            font-family: 'Cairo', sans-serif; resize: none; transition: border-color 0.2s;
+                            min-height: 48px; /* لضمان ارتفاع ثابت عند سطر واحد */
+                            box-sizing: border-box; /* لضمان أن padding لا يزيد العرض الكلي */
+                        }
+                        .chat-input:focus { outline: none; border-color: var(--primary-color); }
+                        .send-button {
+                            width: 48px; height: 48px; background-color: var(--primary-color);
+                            border: none; border-radius: 50%; color: white;
+                            font-size: 1.2rem; margin-left: 0.75rem; cursor: pointer; transition: transform 0.2s;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                        }
+                        .send-button:hover { transform: scale(1.1); }
+                        .send-button:disabled { background-color: var(--bot-bubble-bg); cursor: not-allowed; opacity: 0.7; }
 
-                /* --- صفحة الإدارة --- */
-                .admin-page {
-                    background: var(--bg-color);
-                    padding: 2rem;
-                    min-height: 100vh;
-                    color: var(--text-color); /* لون النص الافتراضي للصفحة الإدارة */
-                }
-                .admin-page-title {
-                    font-size: 2.5rem;
-                    font-weight: bold;
-                    text-align: center;
-                    color: var(--primary-color);
-                    margin-bottom: 2rem;
-                    text-shadow: 0 0 5px rgba(16, 185, 129, 0.5);
-                }
-                .admin-user-id {
-                    text-align: center;
-                    color: var(--text-color-muted);
-                    margin-bottom: 1.5rem;
-                    font-size: 1rem;
-                }
-                .admin-user-id-value {
-                    font-family: 'monospace', monospace;
-                    background-color: var(--user-bubble-bg);
-                    padding: 0.25rem 0.75rem;
-                    border-radius: 8px;
-                    color: var(--primary-color);
-                    word-break: break-all;
-                }
-                .admin-message {
-                    background-color: rgba(16, 185, 129, 0.2); /* أخضر فاتح شفاف */
-                    border: 1px solid var(--primary-color);
-                    color: var(--primary-color);
-                    padding: 0.75rem 1rem;
-                    border-radius: 8px;
-                    text-align: center;
-                    margin-bottom: 1.5rem;
-                    font-weight: 600;
-                }
-                .admin-card {
-                    background: var(--glass-bg);
-                    padding: 2rem;
-                    border-radius: 16px;
-                    border: 1px solid var(--border-color);
-                    margin-bottom: 2rem;
-                    box-shadow: 0 4px 16px var(--shadow-color);
-                    backdrop-filter: blur(10px);
-                }
-                .admin-card-title {
-                    font-size: 1.75rem;
-                    font-weight: 600;
-                    color: white;
-                    margin-bottom: 1.5rem;
-                    text-align: center;
-                }
-                .form-group {
-                    margin-bottom: 1rem;
-                }
-                .admin-label {
-                    color: var(--text-color-muted);
-                    margin-bottom: 0.5rem;
-                    display: block;
-                    font-size: 0.9rem;
-                    font-weight: 600;
-                }
-                .admin-input {
-                    width: 100%;
-                    padding: 0.75rem 1rem;
-                    background-color: var(--user-bubble-bg);
-                    border: 1px solid var(--border-color);
-                    border-radius: 8px;
-                    color: var(--text-color);
-                    font-family: 'Cairo', sans-serif;
-                    transition: border-color 0.2s;
-                }
-                .admin-input:focus {
-                    outline: none;
-                    border-color: var(--primary-color);
-                }
-                .admin-textarea {
-                    min-height: 100px;
-                    resize: vertical;
-                }
-                .admin-hint {
-                    font-size: 0.75rem;
-                    color: var(--text-color-muted);
-                    margin-top: 0.5rem;
-                }
-                .admin-buttons-group {
-                    display: flex;
-                    justify-content: center;
-                    gap: 1rem;
-                    margin-top: 1.5rem;
-                }
-                .admin-button {
-                    padding: 0.75rem 2rem;
-                    border-radius: 8px;
-                    border: none;
-                    cursor: pointer;
-                    font-weight: 600;
-                    transition: all 0.2s;
-                    font-family: 'Cairo', sans-serif;
-                    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-                }
-                .admin-button.primary {
-                    background-color: var(--primary-color);
-                    color: white;
-                }
-                .admin-button.primary:hover {
-                    background-color: #0c8a63;
-                }
-                .admin-button.secondary {
-                    background-color: var(--bot-bubble-bg);
-                    color: var(--text-color);
-                }
-                .admin-button.secondary:hover {
-                    background-color: #6a7388;
-                }
+                        .modal-backdrop {
+                            position: fixed; inset: 0; background-color: rgba(0,0,0,0.7);
+                            display: flex; align-items: center; justify-content: center; z-index: 1001;
+                        }
+                        .modal-content {
+                            background: var(--glass-bg); padding: 2rem; border-radius: 16px;
+                            border: 1px solid var(--border-color); backdrop-filter: blur(10px);
+                            width: 90%; max-width: 400px;
+                            box-shadow: 0 8px 32px 0 var(--shadow-color);
+                        }
+                        .modal-title {
+                            font-size: 1.5rem;
+                            font-weight: bold;
+                            color: white;
+                            margin-bottom: 1.5rem;
+                            text-align: center;
+                        }
+                        .modal-input {
+                            width: 100%; padding: 0.75rem 1rem; background-color: var(--user-bubble-bg);
+                            border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-color);
+                            margin-bottom: 1rem;
+                        }
+                        .modal-input:focus { outline: none; border-color: var(--primary-color); }
+                        .modal-buttons-group {
+                            display: flex;
+                            justify-content: space-between;
+                            margin-top: 1.5rem;
+                        }
+                        .modal-button { padding: 0.5rem 1.5rem; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; transition: all 0.2s; }
+                        .modal-button.primary { background-color: var(--primary-color); color: white; }
+                        .modal-button.secondary { background-color: var(--bot-bubble-bg); color: var(--text-color); }
+                        .modal-button:hover.primary { background-color: #0c8a63; }
+                        .modal-button:hover.secondary { background-color: #6a7388; }
+                        .modal-hint {
+                            font-size: 0.75rem;
+                            color: var(--text-color-muted);
+                            margin-top: 1rem;
+                            text-align: center;
+                        }
 
-                .admin-empty-state {
-                    text-align: center;
-                    color: var(--text-color-muted);
-                    font-size: 1.1rem;
-                    padding: 1rem;
-                }
-                .admin-table-container {
-                    overflow-x: auto; /* لجعل الجدول قابلاً للتمرير أفقياً */
-                }
-                .admin-table {
-                    width: 100%;
-                    border-collapse: collapse;
-                    background-color: rgba(0,0,0,0.1); /* خلفية خفيفة للجدول */
-                    border-radius: 8px;
-                    overflow: hidden; /* لضمان أن الحدود المستديرة تطبق */
-                }
-                .admin-table-header {
-                    padding: 1rem;
-                    text-align: right;
-                    font-size: 0.85rem;
-                    font-weight: 700;
-                    color: var(--primary-color);
-                    text-transform: uppercase;
-                    border-bottom: 1px solid var(--border-color);
-                    background-color: rgba(0,0,0,0.3); /* خلفية أغمق للرؤوس */
-                }
-                .admin-table-cell {
-                    padding: 1rem;
-                    border-bottom: 1px solid var(--border-color);
-                    color: var(--text-color);
-                    font-size: 0.95rem;
-                    max-width: 250px; /* لتقييد عرض الخلايا */
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                }
-                .admin-table-cell-image {
-                    padding: 1rem;
-                    border-bottom: 1px solid var(--border-color);
-                    text-align: center;
-                }
-                .admin-image-preview {
-                    width: 60px;
-                    height: 60px;
-                    object-fit: cover;
-                    border-radius: 8px;
-                    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-                }
-                .admin-empty-image {
-                    color: var(--text-color-muted);
-                    font-size: 0.75rem;
-                }
-                .admin-table-cell-actions {
-                    padding: 1rem;
-                    border-bottom: 1px solid var(--border-color);
-                    text-align: center;
-                }
-                .admin-actions-group {
-                    display: flex;
-                    justify-content: center;
-                    gap: 0.5rem;
-                }
-                .admin-action-button {
-                    padding: 0.5rem 1rem;
-                    border-radius: 6px;
-                    border: none;
-                    cursor: pointer;
-                    font-weight: 600;
-                    font-size: 0.8rem;
-                    transition: all 0.2s;
-                    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-                }
-                .admin-action-button.edit {
-                    background-color: #f6e05e; /* أصفر فاتح */
-                    color: #333;
-                }
-                .admin-action-button.edit:hover {
-                    background-color: #d6bc4a;
-                }
-                .admin-action-button.delete {
-                    background-color: #e53e3e; /* أحمر */
-                    color: white;
-                }
-                .admin-action-button.delete:hover {
-                    background-color: #c53030;
-                }
-                .admin-table-row:nth-child(even) {
-                    background-color: rgba(0,0,0,0.05); /* تظليل الصفوف الزوجية */
-                }
-                .admin-table-row:hover {
-                    background-color: rgba(16, 185, 129, 0.1); /* تأثير التحويم */
-                }
 
-                .admin-unanswered-list {
-                    list-style: none;
-                    padding: 0;
-                }
-                .admin-unanswered-item {
-                    background-color: rgba(0,0,0,0.1);
-                    border: 1px solid var(--border-color);
-                    border-radius: 12px;
-                    padding: 1.25rem;
-                    margin-bottom: 1rem;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-                }
-                .admin-unanswered-details {
-                    flex-grow: 1;
-                    margin-right: 1rem;
-                }
-                .admin-unanswered-question {
-                    font-weight: 600;
-                    color: white;
-                    margin-bottom: 0.5rem;
-                }
-                .admin-unanswered-timestamp {
-                    font-size: 0.85rem;
-                    color: var(--text-color-muted);
-                }
-                .admin-logout-container {
-                    text-align: center;
-                    margin-top: 2rem;
-                }
-                .admin-logout-button {
-                    background-color: var(--bot-bubble-bg);
-                    color: var(--text-color);
-                    border: 1px solid var(--border-color);
-                    padding: 0.75rem 2rem;
-                    border-radius: 8px;
-                    font-weight: 600;
-                    cursor: pointer;
-                    transition: all 0.2s;
-                    font-family: 'Cairo', sans-serif;
-                    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-                }
-                .admin-logout-button:hover {
-                    background-color: #e53e3e; /* أحمر عند التحويم */
-                    color: white;
-                }
+                        /* --- شريط التمرير --- */
+                        .chat-messages::-webkit-scrollbar { width: 6px; }
+                        .chat-messages::-webkit-scrollbar-track { background: transparent; }
+                        .chat-messages::-webkit-scrollbar-thumb { background: #555; border-radius: 3px; }
+                        .chat-messages::-webkit-scrollbar-thumb:hover { background: #777; }
 
-                /* Responsive adjustments */
-                @media (max-width: 768px) {
-                    .main-container {
-                        padding: 1rem;
-                    }
-                    .chat-window {
-                        max-height: calc(100vh - 40px); /* Adjust for smaller screens */
-                    }
-                    .settings-fab {
-                        top: 10px;
-                        right: 10px;
-                        width: 40px;
-                        height: 40px;
-                        font-size: 18px;
-                    }
-                    .chat-header {
-                        padding: 1rem;
-                    }
-                    .avatar-icon {
-                        width: 40px;
-                        height: 40px;
-                        font-size: 20px;
-                        margin-right: 0.75rem;
-                    }
-                    .chat-title {
-                        font-size: 1.1rem;
-                    }
-                    .chat-status {
-                        font-size: 0.75rem;
-                    }
-                    .chat-messages {
-                        padding: 0.75rem;
-                    }
-                    .message-bubble {
-                        font-size: 0.9rem;
-                        padding: 0.6rem 0.9rem;
-                    }
-                    .chat-input-area {
-                        padding: 0.75rem;
-                    }
-                    .chat-input {
-                        padding: 0.6rem 0.9rem;
-                        font-size: 0.9rem;
-                    }
-                    .send-button {
-                        width: 40px;
-                        height: 40px;
-                        font-size: 1rem;
-                        margin-left: 0.5rem;
-                    }
-                    .modal-content {
-                        padding: 1.5rem;
-                    }
-                    .modal-title {
-                        font-size: 1.25rem;
-                    }
-                    .modal-button {
-                        padding: 0.5rem 1rem;
-                        font-size: 0.9rem;
-                    }
-                    .admin-page {
-                        padding: 1rem;
-                    }
-                    .admin-page-title {
-                        font-size: 2rem;
-                    }
-                    .admin-card {
-                        padding: 1.5rem;
-                    }
-                    .admin-card-title {
-                        font-size: 1.5rem;
-                    }
-                    .admin-table-header, .admin-table-cell {
-                        padding: 0.75rem;
-                        font-size: 0.8rem;
-                    }
-                    .admin-action-button {
-                        padding: 0.4rem 0.8rem;
-                        font-size: 0.7rem;
-                    }
-                    .admin-unanswered-item {
-                        flex-direction: column;
-                        align-items: flex-start;
-                    }
-                    .admin-unanswered-details {
-                        margin-right: 0;
-                        margin-bottom: 0.5rem;
-                    }
-                }
-            `}</style>
+                        /* --- صفحة الإدارة --- */
+                        .admin-page {
+                            background: var(--bg-color);
+                            padding: 2rem;
+                            min-height: 100vh;
+                            color: var(--text-color); /* لون النص الافتراضي للصفحة الإدارة */
+                        }
+                        .admin-page-title {
+                            font-size: 2.5rem;
+                            font-weight: bold;
+                            text-align: center;
+                            color: var(--primary-color);
+                            margin-bottom: 2rem;
+                            text-shadow: 0 0 5px rgba(16, 185, 129, 0.5);
+                        }
+                        .admin-user-id {
+                            text-align: center;
+                            color: var(--text-color-muted);
+                            margin-bottom: 1.5rem;
+                            font-size: 1rem;
+                        }
+                        .admin-user-id-value {
+                            font-family: 'monospace', monospace;
+                            background-color: var(--user-bubble-bg);
+                            padding: 0.25rem 0.75rem;
+                            border-radius: 8px;
+                            color: var(--primary-color);
+                            word-break: break-all;
+                        }
+                        .admin-message {
+                            background-color: rgba(16, 185, 129, 0.2); /* أخضر فاتح شفاف */
+                            border: 1px solid var(--primary-color);
+                            color: var(--primary-color);
+                            padding: 0.75rem 1rem;
+                            border-radius: 8px;
+                            text-align: center;
+                            margin-bottom: 1.5rem;
+                            font-weight: 600;
+                        }
+                        .admin-card {
+                            background: var(--glass-bg);
+                            padding: 2rem;
+                            border-radius: 16px;
+                            border: 1px solid var(--border-color);
+                            margin-bottom: 2rem;
+                            box-shadow: 0 4px 16px var(--shadow-color);
+                            backdrop-filter: blur(10px);
+                        }
+                        .admin-card-title {
+                            font-size: 1.75rem;
+                            font-weight: 600;
+                            color: white;
+                            margin-bottom: 1.5rem;
+                            text-align: center;
+                        }
+                        .form-group {
+                            margin-bottom: 1rem;
+                        }
+                        .admin-label {
+                            color: var(--text-color-muted);
+                            margin-bottom: 0.5rem;
+                            display: block;
+                            font-size: 0.9rem;
+                            font-weight: 600;
+                        }
+                        .admin-input {
+                            width: 100%;
+                            padding: 0.75rem 1rem;
+                            background-color: var(--user-bubble-bg);
+                            border: 1px solid var(--border-color);
+                            border-radius: 8px;
+                            color: var(--text-color);
+                            font-family: 'Cairo', sans-serif;
+                            transition: border-color 0.2s;
+                        }
+                        .admin-input:focus {
+                            outline: none;
+                            border-color: var(--primary-color);
+                        }
+                        .admin-textarea {
+                            min-height: 100px;
+                            resize: vertical;
+                        }
+                        .admin-hint {
+                            font-size: 0.75rem;
+                            color: var(--text-color-muted);
+                            margin-top: 0.5rem;
+                        }
+                        .admin-buttons-group {
+                            display: flex;
+                            justify-content: center;
+                            gap: 1rem;
+                            margin-top: 1.5rem;
+                        }
+                        .admin-button {
+                            padding: 0.75rem 2rem;
+                            border-radius: 8px;
+                            border: none;
+                            cursor: pointer;
+                            font-weight: 600;
+                            transition: all 0.2s;
+                            font-family: 'Cairo', sans-serif;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                        }
+                        .admin-button.primary {
+                            background-color: var(--primary-color);
+                            color: white;
+                        }
+                        .admin-button.primary:hover {
+                            background-color: #0c8a63;
+                        }
+                        .admin-button.secondary {
+                            background-color: var(--bot-bubble-bg);
+                            color: var(--text-color);
+                        }
+                        .admin-button.secondary:hover {
+                            background-color: #6a7388;
+                        }
+
+                        .admin-empty-state {
+                            text-align: center;
+                            color: var(--text-color-muted);
+                            font-size: 1.1rem;
+                            padding: 1rem;
+                        }
+                        .admin-table-container {
+                            overflow-x: auto; /* لجعل الجدول قابلاً للتمرير أفقياً */
+                        }
+                        .admin-table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            background-color: rgba(0,0,0,0.1); /* خلفية خفيفة للجدول */
+                            border-radius: 8px;
+                            overflow: hidden; /* لضمان أن الحدود المستديرة تطبق */
+                        }
+                        .admin-table-header {
+                            padding: 1rem;
+                            text-align: right;
+                            font-size: 0.85rem;
+                            font-weight: 700;
+                            color: var(--primary-color);
+                            text-transform: uppercase;
+                            border-bottom: 1px solid var(--border-color);
+                            background-color: rgba(0,0,0,0.3); /* خلفية أغمق للرؤوس */
+                        }
+                        .admin-table-cell {
+                            padding: 1rem;
+                            border-bottom: 1px solid var(--border-color);
+                            color: var(--text-color);
+                            font-size: 0.95rem;
+                            max-width: 250px; /* لتقييد عرض الخلايا */
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                        }
+                        .admin-table-cell-image {
+                            padding: 1rem;
+                            border-bottom: 1px solid var(--border-color);
+                            text-align: center;
+                        }
+                        .admin-image-preview {
+                            width: 60px;
+                            height: 60px;
+                            object-fit: cover;
+                            border-radius: 8px;
+                            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+                        }
+                        .admin-empty-image {
+                            color: var(--text-color-muted);
+                            font-size: 0.75rem;
+                        }
+                        .admin-table-cell-actions {
+                            padding: 1rem;
+                            border-bottom: 1px solid var(--border-color);
+                            text-align: center;
+                        }
+                        .admin-actions-group {
+                            display: flex;
+                            justify-content: center;
+                            gap: 0.5rem;
+                        }
+                        .admin-action-button {
+                            padding: 0.5rem 1rem;
+                            border-radius: 6px;
+                            border: none;
+                            cursor: pointer;
+                            font-weight: 600;
+                            font-size: 0.8rem;
+                            transition: all 0.2s;
+                            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+                        }
+                        .admin-action-button.edit {
+                            background-color: #f6e05e; /* أصفر فاتح */
+                            color: #333;
+                        }
+                        .admin-action-button.edit:hover {
+                            background-color: #d6bc4a;
+                        }
+                        .admin-action-button.delete {
+                            background-color: #e53e3e; /* أحمر */
+                            color: white;
+                        }
+                        .admin-action-button.delete:hover {
+                            background-color: #c53030;
+                        }
+                        .admin-table-row:nth-child(even) {
+                            background-color: rgba(0,0,0,0.05); /* تظليل الصفوف الزوجية */
+                        }
+                        .admin-table-row:hover {
+                            background-color: rgba(16, 185, 129, 0.1); /* تأثير التحويم */
+                        }
+
+                        .admin-unanswered-list {
+                            list-style: none;
+                            padding: 0;
+                        }
+                        .admin-unanswered-item {
+                            background-color: rgba(0,0,0,0.1);
+                            border: 1px solid var(--border-color);
+                            border-radius: 12px;
+                            padding: 1.25rem;
+                            margin-bottom: 1rem;
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                        }
+                        .admin-unanswered-details {
+                            flex-grow: 1;
+                            margin-right: 1rem;
+                        }
+                        .admin-unanswered-question {
+                            font-weight: 600;
+                            color: white;
+                            margin-bottom: 0.5rem;
+                        }
+                        .admin-unanswered-timestamp {
+                            font-size: 0.85rem;
+                            color: var(--text-color-muted);
+                        }
+                        .admin-logout-container {
+                            text-align: center;
+                            margin-top: 2rem;
+                        }
+                        .admin-logout-button {
+                            background-color: var(--bot-bubble-bg);
+                            color: var(--text-color);
+                            border: 1px solid var(--border-color);
+                            padding: 0.75rem 2rem;
+                            border-radius: 8px;
+                            font-weight: 600;
+                            cursor: pointer;
+                            transition: all 0.2s;
+                            font-family: 'Cairo', sans-serif;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                        }
+                        .admin-logout-button:hover {
+                            background-color: #e53e3e; /* أحمر عند التحويم */
+                            color: white;
+                        }
+
+                        /* Responsive adjustments */
+                        @media (max-width: 768px) {
+                            .main-container {
+                                padding: 1rem;
+                            }
+                            .chat-window {
+                                max-height: calc(100vh - 40px); /* Adjust for smaller screens */
+                            }
+                            .settings-fab {
+                                top: 10px;
+                                right: 10px;
+                                width: 40px;
+                                height: 40px;
+                                font-size: 18px;
+                            }
+                            .chat-header {
+                                padding: 1rem;
+                            }
+                            .avatar-icon {
+                                width: 40px;
+                                height: 40px;
+                                font-size: 20px;
+                                margin-right: 0.75rem;
+                            }
+                            .chat-title {
+                                font-size: 1.1rem;
+                            }
+                            .chat-status {
+                                font-size: 0.75rem;
+                            }
+                            .chat-messages {
+                                padding: 0.75rem;
+                            }
+                            .message-bubble {
+                                font-size: 0.9rem;
+                                padding: 0.6rem 0.9rem;
+                            }
+                            .chat-input-area {
+                                padding: 0.75rem;
+                            }
+                            .chat-input {
+                                padding: 0.6rem 0.9rem;
+                                font-size: 0.9rem;
+                            }
+                            .send-button {
+                                width: 40px;
+                                height: 40px;
+                                font-size: 1rem;
+                                margin-left: 0.5rem;
+                            }
+                            .modal-content {
+                                padding: 1.5rem;
+                            }
+                            .modal-title {
+                                font-size: 1.25rem;
+                            }
+                            .modal-button {
+                                padding: 0.5rem 1rem;
+                                font-size: 0.9rem;
+                            }
+                            .admin-page {
+                                padding: 1rem;
+                            }
+                            .admin-page-title {
+                                font-size: 2rem;
+                            }
+                            .admin-card {
+                                padding: 1.5rem;
+                            }
+                            .admin-card-title {
+                                font-size: 1.5rem;
+                            }
+                            .admin-table-header, .admin-table-cell {
+                                padding: 0.75rem;
+                                font-size: 0.8rem;
+                            }
+                            .admin-action-button {
+                                padding: 0.4rem 0.8rem;
+                                font-size: 0.7rem;
+                            }
+                            .admin-unanswered-item {
+                                flex-direction: column;
+                                align-items: flex-start;
+                            }
+                            .admin-unanswered-details {
+                                margin-right: 0;
+                                margin-bottom: 0.5rem;
+                            }
+                        }
+                    `}</style>
     </div>
   );
 };
