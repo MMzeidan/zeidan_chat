@@ -592,7 +592,7 @@ const App: React.FC = () => {
       ];
       const payload = { contents: chatHistory };
       // ملاحظة: مفتاح Gemini API لا يزال هنا. للحماية الكاملة، يجب استخدام خادم وسيط (API Proxy).
-      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=YOUR_API_KEY_HERE`; // <--- ضع مفتاح API هنا
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyAUpObcLAy017CkzeXdA2-nwuL7n3lIvZI`; // <--- ضع مفتاح API هنا
 
       const response = await fetch(apiUrl, {
         method: "POST",
